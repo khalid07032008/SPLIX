@@ -1,0 +1,327 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SPLIX — Mint</title><link id="favicon" rel="icon" type="image/png">
+<style>
+*{box-sizing:border-box}body{margin:0;color:#e5edff;background:#080d19;min-height:100vh;display:flex;flex-direction:column;font:15px system-ui}header,footer{background:#080d19;border-block-end:1px solid #213350}.bar,main{width:min(1160px,calc(100% - 40px));margin:auto}.bar{min-height:66px;display:flex;align-items:center;justify-content:space-between;gap:12px}.mono,button,h1,dt,dd,figcaption{font-family:"Space Mono",Consolas,monospace;font-weight:900;letter-spacing:.09em}header strong{font-size:21px;color:#a7caff}.chain{color:#b7d1ff;background:#14253e;padding:8px 12px;font-size:12px}main{display:grid;grid-template-columns:46fr 54fr;align-items:start;gap:34px;margin-block:32px auto;padding-bottom:40px}body{background-image:linear-gradient(#21335045 1px,transparent 1px),linear-gradient(90deg,#21335045 1px,transparent 1px),radial-gradient(ellipse at 45% 20%,#152641,transparent 70%);background-size:24px 24px,24px 24px,100% 100%}figure{margin:0;background:#9ecaff;padding:8px;color:#e5edff;box-shadow:9px 9px #2858d1}figcaption,.frame-top{background:#101c30;padding:9px 12px;font-size:13px;display:flex;justify-content:space-between;gap:8px}canvas{display:block;image-rendering:pixelated;width:100%;height:auto}#hero{max-width:440px;margin:8px auto}.thumbs{display:grid;grid-template-columns:repeat(9,1fr);gap:5px;margin-top:19px}button{cursor:pointer;color:inherit}.thumbs button{border:2px solid #304c79;background:#101c30;padding:0;min-width:0}.thumbs button[aria-pressed=true]{border-color:#dcecff;box-shadow:0 0 0 2px #619aff}button:focus-visible{outline:2px solid #fff;outline-offset:3px}.mint{background:#101c30;border:2px solid #203658;box-shadow:9px 9px #050811;padding:clamp(18px,3vw,30px)}.status{font-size:13px;color:#a3caff}h1{font-size:clamp(38px,7vw,66px);line-height:1;margin:13px 0 8px;text-shadow:4px 4px #315fc8}.muted,dt,footer{color:#a2b5d2}.mint p{margin:0 0 20px}dl{margin:24px 0 14px}dl div,.quantity,.total{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-block:10px}dt{font-size:12px}dd{margin:0;font-size:18px}.track{height:10px;border:1px solid #385279;background:#080d19;margin-bottom:17px}.notice{border:1px solid #36547d;padding:12px;color:#bed5fb}.quantity button{background:#172743;border:1px solid #42659a;min-width:36px;min-height:36px}.quantity button:disabled{opacity:.45;cursor:default}output{display:inline-block;min-width:32px;text-align:center}.action{background:#9ecaff;color:#0b1425;width:100%;border:0;padding:17px;margin-top:10px;cursor:default;font-size:15px}footer{border-block-start:1px solid #213350;font-size:13px}@media(max-width:740px){main{grid-template-columns:1fr;gap:25px}.bar,main{width:calc(100% - 30px)}}
+.gallery-controls{display:flex;justify-content:flex-end;margin-top:10px}.gallery-controls button{background:#101c30;border:1px solid #385279;padding:6px 10px;font-size:11px}#hero{transform-origin:center}#hero.is-changing{animation:pop .26s ease-out}@keyframes pop{from{opacity:.72;transform:scale(.97)}to{opacity:1;transform:scale(1)}}@media(prefers-reduced-motion:reduce){#hero.is-changing{animation:none}}.fusion{grid-column:1/-1;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:20px;background:#101c30;border:2px solid #203658;box-shadow:9px 9px #050811;padding:clamp(18px,3vw,30px)}.fusion h2{margin:8px 0;font-size:clamp(22px,4vw,34px)}.fusion p{margin:0}.fusion-art{display:flex;align-items:center;gap:9px}.fusion-art canvas,.fusion-result{width:clamp(42px,10vw,72px);aspect-ratio:1;border:2px solid #385279}.fusion-result{display:grid;place-items:center;color:#9ecaff;border-style:dashed;font-size:23px}.presets{display:flex;gap:8px;margin-block:10px 16px}.presets button{flex:1;background:#172743;border:1px solid #42659a;padding:9px}.presets button[aria-pressed=true]{background:#9ecaff;color:#0b1425;border-color:#9ecaff}.header-actions{display:flex;flex-wrap:wrap;justify-content:flex-end;align-items:center;gap:8px}.header-actions a,.header-actions button{padding:8px 12px;background:#14253e;color:#b7d1ff;border:1px solid #385279;text-decoration:none;font-size:12px}.header-actions button{background:#9ecaff;color:#0b1425}.wallet-status{margin:0;color:#a2b5d2}.wallet-status:not(:empty){padding-bottom:8px}.brand{display:flex;align-items:center;gap:10px}.brand img{border:1px solid #385279;image-rendering:pixelated;display:block}.action:enabled{cursor:pointer}dl div[hidden]{display:none}#collection{display:block}main[hidden],#collection[hidden]{display:none}.collection-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:14px}.collection-grid figure{box-shadow:none;background:#152443;color:#dcecff}.collection-grid figcaption{margin-top:8px}.collection-info{margin:22px 0 28px;padding:20px;background:#101c30;border:1px solid #304c79}.collection-info h2{margin:0 0 14px}.info-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,230px),1fr));gap:16px}.info-grid article{padding:14px;background:#080d19}.info-grid h3{margin:0}.info-grid p{color:#bfceea}.info-grid a{color:#9ecaff}#mint-note:empty{display:none}</style>
+<header><div class="bar"><div class="brand"><img id="brand-icon" width="38" height="38" alt=""><strong class="mono">SPLIX</strong></div><div class="header-actions"><a class="mono" href="#mint">Mint</a><a class="mono" href="#collection">Collection</a><span class="mono chain">◆ ROBINHOOD CHAIN</span><a class="mono" href="https://x.com/SPLIX_NFT" target="_blank" rel="noopener noreferrer" aria-label="SPLIX on X">X</a><button id="wallet" type="button">CONNECT WALLET</button></div></div><p id="wallet-status" class="bar wallet-status" style="min-height:0" role="status"></p></header>
+<main id="mint">
+<section aria-label="SPLIX artwork gallery">
+<figure><div class="frame-top mono"><span>SPLIX COLLECTION</span><span id="index">01 / 09</span></div><canvas id="hero" width="32" height="32" role="img"></canvas><figcaption id="name"></figcaption></figure>
+<div class="thumbs" id="thumbs"></div><div class="gallery-controls"><button id="playback" type="button">Pause slideshow</button></div>
+</section>
+<section class="mint" aria-label="Mint">
+<div class="mono status" id="mint-state">CHECKING MINT</div><h1 id="mint-heading">MINT</h1><p class="muted">2,222 tiny remixable characters on Robinhood Chain.</p>
+<dl><div><dt>COLLECTION SIZE</dt><dd>2,222</dd></div></dl>
+<div class="track" aria-hidden="true"></div><p class="notice" id="mint-note" role="status"></p>
+<div class="quantity"><span>Quantity</span><div><button id="minus" aria-label="Decrease quantity">−</button><output id="qty" aria-live="polite">1</output><button id="plus" aria-label="Increase quantity">+</button></div></div>
+<div class="presets" role="group" aria-label="Quick mint quantities"><button type="button" data-quantity="1">1</button><button type="button" data-quantity="10">10</button><button type="button" data-quantity="50">50</button><button type="button" data-quantity="100">100</button></div>
+<button class="action" id="mint-button" disabled>MINT</button>
+</section>
+<section class="fusion" aria-labelledby="fusion-title">
+<div><span class="mono status">◆ OPEN SOON</span><h2 class="mono" id="fusion-title">SPLIX FUSION</h2><p class="muted">Combine two SPLIX characters to create a new remix.</p></div>
+<div class="fusion-art mono" aria-hidden="true"><canvas id="fusion-first" width="32" height="32"></canvas><span>+</span><canvas id="fusion-second" width="32" height="32"></canvas><span>=</span><span class="fusion-result">?</span></div>
+</section></main><main id="collection" hidden><h1>Collection</h1><p>50 SPLIX pixel-art designs</p><div class="collection-grid"></div><section class="collection-info" aria-labelledby="collection-info-title">
+<h2 id="collection-info-title">About the collection</h2><p lang="zh-Hans" id="collection-mint-status" class="notice">正在查询 Robinhood Chain…</p>
+<p lang="zh-Hans" id="payment-summary" class="muted" aria-live="polite" hidden></p><p id="paid-disclosure" class="muted" hidden>Paid mint. Review the total in your wallet.</p><p id="mint-title-status" class="muted">Checking contract price…</p><div class="info-grid">
+<article><h3>The collection</h3><p>SPLIX is a collection of 2,222 ERC-721 NFTs on Robinhood Chain.</p></article>
+<article><h3>The artwork</h3><p>Explore 50 pixel-art previews based on nine characters, with different palettes and backgrounds.</p></article>
+<article><h3>Minting</h3><p>Connect an Ethereum-compatible wallet and choose your quantity on the mint page. The mint price comes from the contract. Network fees apply.</p><a href="#mint">Open mint page</a></article>
+<article><h3>Network and contract</h3><p>Robinhood Chain Mainnet · Chain ID 4663</p><a href="https://robinhoodchain.blockscout.com/address/0xf4833badd3175b6258d3688cc08ec5ebe54d1599" target="_blank" rel="noopener noreferrer">View SPLIX contract</a></article>
+<article><h3>SPLIX Fusion</h3><p>Fusion is planned as a way to combine two SPLIX characters. Open soon.</p></article>
+</div>
+</section></main>
+<footer><div class="bar"><span>© 2026 SPLIX</span><span>Robinhood Chain</span></div></footer>
+<script>
+const variants=[
+ ['COBALT BOT','#050505','#1044f3','#fff2d4',[
+ '......###.......','.......#........','...##..#..##....','...#########....','..##########....','..##O###O###....','..##O###O###....','..##########....','...########...##','....######...##.','...########..#..','..###OOOO###.#..','..###OOOO#####..','..###########...','....###.###.....','....###.###.....']],
+ ['EMBER FOX','#351716','#ff7438','#ffe3a6',[
+ '..#.........#...','..##.......##...','..###.....###...','..####...####...','...#########....','...#########....','..##O#####O##...','..##O#####O##...','...OO##O##OO....','....OOOOOOO...#.','.....#####...##.','....##OO###.###.','...###OO######..','...##########...','....###.###.....']],
+ ['MINT GHOST','#0c3030','#71edbf','#092b30',[
+ '......#####.....','....########....','...##########...','..############..','..###OO##OO###..','..###OO##OO###..','..############..','..#####OO#####..','.##############.','.##############.','..############..','..############..','..###..##..###..','..##........##..']],
+ ['LILAC BAT','#241436','#b885f4','#fff0ff',[
+ '.....#...#......','.....##.##......','.....#####......','....#######.....','....#O###O#.....','.#..#######...#.','###..#####...###','####.#####..####','################','################','.##.########.##.','.#...######...#.','......##.##.....']],
+ ['GOLD CROWN','#30240e','#ffcb43','#fff8e4',[
+ '...#...#...#....','...##.###.##....','...#########....','...##O#O#O##....','...#########....','....#######.....','....#O###O#.....','....#######.....','.....#####......','...#########....','..####OOO####...','..####OOO####...','..###########...','....###.###.....']],
+ ['BUBBLE OCTO','#472038','#ff76af','#fff2e9',[
+ '.....######.....','...##########...','..############..','..##OO####OO##..','..##OO####OO##..','..############..','...####OO####...','...##########...','.#.##########.#.','##.##########.##','################','###.###..###.###','.##..##..##..##.']],
+ ['ARCTIC PENGUIN','#12354d','#72ccf8','#f9f6df',[
+ '......####......','.....######.....','....########....','....#O####O#....','....########....','....###OO###....','...##########...','..####OOOO####..','.####OOOOOO####.','.####OOOOOO####.','..###OOOOOO###..','...###OOOO###...','....########....','....OO....OO....']],
+ ['LIME ALIEN','#182e14','#a9ed53','#f1ffd9',[
+ '...#........#...','....#......#....','.....#....#.....','....########....','...##########...','..##OO####OO##..','..##OO####OO##..','..############..','...####OO####...','....########....','......####......','....########....','...##.####.##...','......####......','.....##..##.....']],
+ ['CRIMSON DEVIL','#33121e','#ee365a','#fff0d6',[
+ '...#........#...','...##......##...','...###....###...','....########....','...##########...','...##O####O##...','...###O##O###...','...##########...','....########....','.....######...#.','....########.##.','...###OOOO#####.','...###########..','.....###.###....','.....###.###....']]
+];
+function draw(canvas,i,variant=variants[i]){
+ const [,bg,body,accent,pixels]=variant;
+ const ctx=canvas.getContext('2d');
+ ctx.fillStyle=bg;
+ ctx.fillRect(0,0,32,32);
+ const top=Math.floor((32-pixels.length)/2);
+ pixels.forEach((row,y)=>Array.from(row).forEach((pixel,x)=>{
+  if(pixel==='.')return;
+  ctx.fillStyle=pixel==='O'?accent:body;
+  ctx.fillRect(x+8,y+top,1,1);
+ }));
+}
+const icon=document.createElement('canvas');
+icon.width=icon.height=32;
+draw(icon,0);
+const iconUrl=icon.toDataURL('image/png');
+document.querySelector('#favicon').href=iconUrl;
+document.querySelector('#brand-icon').src=iconUrl;
+const wallet=document.querySelector('#wallet');
+const walletStatus=document.querySelector('#wallet-status');
+let announcedRabby;
+let observedProvider;
+const getProvider=()=>[announcedRabby,window.rabby,...(window.ethereum?.providers ?? []).filter(item=>item.isRabby),window.ethereum].find(item=>typeof item?.request==='function');
+window.addEventListener('eip6963:announceProvider',event=>{
+ if(event.detail?.info?.rdns==='io.rabby')announcedRabby=event.detail.provider;
+});
+window.dispatchEvent(new Event('eip6963:requestProvider'));
+async function connectWallet(){
+ const provider=getProvider();
+ if(!provider?.request)throw Error('Rabby was not detected. Open the HTTPS site in Chrome and allow Rabby access to this domain.');
+ const accounts=await provider.request({method:'eth_requestAccounts'});
+ if(!accounts[0])throw Error('Select an account in Rabby.');
+ if(observedProvider!==provider){
+  observedProvider?.removeListener?.('accountsChanged',showAccounts);
+  provider.on?.('accountsChanged',showAccounts);
+  observedProvider=provider;
+ }
+ showAccounts(accounts);
+ return {provider,from:accounts[0]};
+}
+function showAccounts(accounts){
+ const address=accounts[0];
+ wallet.textContent=address?address.slice(0,6)+'…'+address.slice(-4):'CONNECT WALLET';
+ walletStatus.textContent=address?'Wallet connected.':'';
+}
+wallet.onclick=async ()=>{
+ wallet.disabled=true;
+ try{await connectWallet();syncMint()}
+ catch(error){walletStatus.textContent=error.code===4001?'Wallet connection cancelled.':error.message}
+ finally{wallet.disabled=false}
+};
+const hero=document.querySelector('#hero'), thumbs=document.querySelector('#thumbs');
+let activeIndex=0;
+function select(i){
+ activeIndex=i;
+ draw(hero,i);
+ hero.setAttribute('aria-label',variants[i][0]+' pixel art');
+ document.querySelector('#name').textContent=variants[i][0];
+ document.querySelector('#index').textContent=String(i+1).padStart(2,'0')+' / 09';
+ Array.from(thumbs.children).forEach((button,j)=>button.setAttribute('aria-pressed',String(i===j)));
+}
+variants.forEach(([name],i)=>{
+ const button=document.createElement('button'), canvas=document.createElement('canvas');
+ canvas.width=canvas.height=32;
+ canvas.setAttribute('aria-hidden','true');
+ button.setAttribute('aria-label',name);
+ button.append(canvas);
+ thumbs.append(button);
+ draw(canvas,i);
+ button.onclick=()=>{select(i); scheduleNext()};
+});
+select(0);
+draw(document.querySelector('#fusion-first'),0);
+draw(document.querySelector('#fusion-second'),1);
+const playback=document.querySelector('#playback');
+const reducedMotion=window.matchMedia('(prefers-reduced-motion: reduce)');
+let playing=!reducedMotion.matches;
+let timer;
+function scheduleNext(){
+ clearTimeout(timer);
+ playback.textContent=playing?'Pause slideshow':'Play slideshow';
+ if(!playing || document.hidden)return;
+ timer=setTimeout(()=>{
+  select((activeIndex+1)%variants.length);
+  hero.classList.add('is-changing');
+  scheduleNext();
+ },2800);
+}
+hero.addEventListener('animationend',()=>hero.classList.remove('is-changing'));
+playback.onclick=()=>{playing=!playing;scheduleNext()};
+document.addEventListener('visibilitychange',scheduleNext);
+reducedMotion.addEventListener('change',event=>{playing=!event.matches;scheduleNext()});
+scheduleNext();
+const minus=document.querySelector('#minus'), plus=document.querySelector('#plus');
+const presets=document.querySelectorAll('[data-quantity]');
+let quantity=1;
+let mintPrice=null;
+function update(){
+ document.querySelector('#qty').value=quantity;
+ presets.forEach(button=>button.setAttribute('aria-pressed',String(Number(button.dataset.quantity)===quantity)));
+ renderPaymentSummary();
+ minus.disabled=quantity===1;
+ plus.disabled=quantity===2222;
+}
+minus.onclick=()=>{quantity--;update()};
+plus.onclick=()=>{quantity++;update()};
+presets.forEach(button=>button.onclick=()=>{
+ quantity=Number(button.dataset.quantity);
+ update();
+});
+update();
+const mintContract='0xf4833badd3175b6258d3688cc08ec5ebe54d1599';
+const mintButton=document.querySelector('#mint-button');
+const mintState=document.querySelector('#mint-state');
+const mintNote=document.querySelector('#mint-note');
+let mintBusy=false;
+
+async function chainRead(method,params){
+ const response=await fetch('https://rpc.mainnet.chain.robinhood.com/',{
+  method:'POST',headers:{'Content-Type':'application/json'},
+  body:JSON.stringify({jsonrpc:'2.0',id:1,method,params})
+ });
+ if(!response.ok)throw Error('Robinhood Chain unavailable.');
+ const {result,error}=await response.json();
+ if(error||!result||result==='0x')throw Error('Could not read SPLIX contract.');
+ return result;
+}
+async function readSplix(data){
+ const params=[{to:mintContract,data},'latest'];
+ try{return await chainRead('eth_call',params)}
+ catch(error){
+  const provider=getProvider();
+  if(!provider?.request||BigInt(await provider.request({method:'eth_chainId'}))!==4663n)throw error;
+  const result=await provider.request({method:'eth_call',params});
+  if(!result||result==='0x')throw error;
+  return result;
+ }
+}
+function formatEth(wei){
+ const whole=wei/1000000000000000000n;
+ const fraction=(wei%1000000000000000000n).toString().padStart(18,'0').replace(/0+$/,'');
+ return whole+(fraction?'.'+fraction:'')+' ETH';
+}
+const chineseDigits=text=>String(text).replace(/[0-9]/g,digit=>'〇一二三四五六七八九'[Number(digit)]);
+function renderPaymentSummary(){
+ const summary=document.querySelector('#payment-summary');
+ summary.hidden=mintPrice===null||mintPrice===0n;
+ summary.textContent=summary.hidden?'':'总计：'+chineseDigits(formatEth(mintPrice*BigInt(quantity)))+'，另加网络手续费';
+}
+async function syncMint(){
+ if(mintBusy)return;
+ try{
+  const [open,count,price]=await Promise.all([readSplix('0x24bbd049'),readSplix('0xa2309ff8'),readSplix('0xc002d23d')]);
+  if(mintBusy)return;
+  const minted=Number(BigInt(count));
+  mintPrice=BigInt(price);
+  renderPaymentSummary();
+  document.querySelector('#paid-disclosure').hidden=mintPrice===0n;
+  const titleStatus=document.querySelector('#mint-title-status'); titleStatus.hidden=mintPrice===0n; titleStatus.textContent='Free mint pending · Current mint is paid';
+  const free=mintPrice===0n;
+  document.querySelector('#mint-heading').textContent=free?'FREE MINT':'MINT';
+  const live=BigInt(open)===1n&&minted<2222;
+  mintState.textContent=live?'◆ MINT LIVE':minted>=2222?'SOLD OUT':'MINT CLOSED';
+  mintButton.disabled=!live;
+  document.querySelector('#collection-mint-status').textContent=(free?'':'免费铸造尚未开放。当前铸造价格：每枚 '+chineseDigits(formatEth(mintPrice))+'。')+'已铸造 '+chineseDigits(minted.toLocaleString('en-US'))+' / 二,二二二 枚';
+ }catch{
+  if(mintBusy)return;
+  mintButton.disabled=true;
+  mintState.textContent='STATUS UNAVAILABLE';
+  document.querySelector('#collection-mint-status').textContent='无法读取 Robinhood Chain 数据，正在重试…';
+ }
+}
+mintButton.onclick=async()=>{
+ mintBusy=true;
+ mintButton.disabled=true;
+ try{
+  const {provider,from}=await connectWallet();
+  if(!from)throw Error('Connect your wallet first.');
+  const chainId='0x1237';
+  if(await provider.request({method:'eth_chainId'})!==chainId){
+   try{await provider.request({method:'wallet_switchEthereumChain',params:[{chainId}]})}
+   catch(error){
+    if(error.code!==4902)throw error;
+    await provider.request({method:'wallet_addEthereumChain',params:[{chainId,chainName:'Robinhood Chain',nativeCurrency:{name:'Ether',symbol:'ETH',decimals:18},rpcUrls:['https://rpc.mainnet.chain.robinhood.com/'],blockExplorerUrls:['https://robinhoodchain.blockscout.com/']}]});
+   }
+  }
+  if(await provider.request({method:'eth_chainId'})!==chainId)throw Error('Switch your wallet to Robinhood Chain and try again.');
+  const currentPrice=BigInt(await readSplix('0xc002d23d'));
+  if(currentPrice!==mintPrice)throw Error('Mint price changed. Check the new total and try again.');
+  const selected=quantity;
+  const total=currentPrice*BigInt(selected);
+  const tx={from,to:mintContract,chainId,data:'0xa0712d68'+selected.toString(16).padStart(64,'0'),value:'0x'+total.toString(16)};
+  await provider.request({method:'eth_estimateGas',params:[tx]});
+  const hash=await provider.request({method:'eth_sendTransaction',params:[tx]});
+  const link=document.createElement('a');
+  link.href='https://robinhoodchain.blockscout.com/tx/'+hash;
+  link.target='_blank';
+  link.rel='noopener noreferrer';
+  link.style.color='inherit';
+  link.textContent='View transaction';
+  mintNote.replaceChildren('Mint submitted. ',link);
+ }catch(error){
+  mintNote.textContent=error.code===4001?'Mint cancelled.':error.message;
+ }finally{
+  setTimeout(()=>{mintBusy=false;syncMint()},12000);
+ }
+};
+syncMint();
+setInterval(syncMint,15000);
+const collection=document.querySelector('#collection');
+const grid=collection.querySelector('.collection-grid');
+function showPage(){
+ const active=location.hash==='#collection';
+ document.querySelector('#mint').hidden=active;
+ collection.hidden=!active;
+ if(!active||grid.childElementCount)return;
+ for(let i=0;i<50;i++){
+  const [name,bg,body,accent,pixels]=variants[i%variants.length];
+  const edition=Math.floor(i/variants.length);
+  const hue=(i*137)%360;
+  const palette=edition===0?[bg,body,accent]:['hsl('+hue+' 42% 16%)','hsl('+((hue+100)%360)+' 82% 61%)','hsl('+((hue+200)%360)+' 85% 88%)'];
+  const card=document.createElement('figure');
+  const canvas=document.createElement('canvas');
+  canvas.width=canvas.height=32;
+  canvas.setAttribute('role','img');
+  canvas.setAttribute('aria-label',name+' pixel art');
+  draw(canvas,i,[name,...palette,pixels]);
+  const caption=document.createElement('figcaption');
+  caption.textContent='#'+String(i+1).padStart(2,'0')+' '+name;
+  card.append(canvas,caption);
+  grid.append(card);
+ }
+}
+window.addEventListener('hashchange',showPage);
+showPage();
+</script>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
