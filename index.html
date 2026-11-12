@@ -81,10 +81,11 @@ window.addEventListener('eip6963:announceProvider',event=>{
  if(event.detail?.info?.rdns==='io.rabby')announcedRabby=event.detail.provider;
 });
 window.dispatchEvent(new Event('eip6963:requestProvider'));
-async function connectWallet(){
+async function connectWallet(reuse=false){
  const provider=getProvider();
  if(!provider?.request)throw Error('Rabby was not detected. Open the HTTPS site in Chrome and allow Rabby access to this domain.');
- const accounts=await provider.request({method:'eth_requestAccounts'});
+ let accounts=reuse?await provider.request({method:'eth_accounts'}):[];
+ if(!accounts.length)accounts=await provider.request({method:'eth_requestAccounts'});
  if(!accounts[0])throw Error('Select an account in Rabby.');
  if(observedProvider!==provider){
   observedProvider?.removeListener?.('accountsChanged',showAccounts);
@@ -230,7 +231,7 @@ mintButton.onclick=async()=>{
  mintBusy=true;
  mintButton.disabled=true;
  try{
-  const {provider,from}=await connectWallet();
+  const {provider,from}=await connectWallet(true);
   if(!from)throw Error('Connect your wallet first.');
   const chainId='0x1237';
   if(await provider.request({method:'eth_chainId'})!==chainId){
@@ -241,12 +242,12 @@ mintButton.onclick=async()=>{
    }
   }
   if(await provider.request({method:'eth_chainId'})!==chainId)throw Error('Switch your wallet to Robinhood Chain and try again.');
-  const currentPrice=BigInt(await readSplix('0xc002d23d'));
-  if(currentPrice!==mintPrice)throw Error('Mint price changed. Check the new total and try again.');
+  const currentPrice=mintPrice;
+  if(currentPrice===null)throw Error('Wait for the mint price to load.');
   const selected=quantity;
   const total=currentPrice*BigInt(selected);
   const tx={from,to:mintContract,chainId,data:'0xa0712d68'+selected.toString(16).padStart(64,'0'),value:'0x'+total.toString(16)};
-  await provider.request({method:'eth_estimateGas',params:[tx]});
+  mintNote.textContent='Review and confirm the transaction in your wallet.';
   const hash=await provider.request({method:'eth_sendTransaction',params:[tx]});
   const link=document.createElement('a');
   link.href='https://robinhoodchain.blockscout.com/tx/'+hash;
@@ -258,7 +259,8 @@ mintButton.onclick=async()=>{
  }catch(error){
   mintNote.textContent=error.code===4001?'Mint cancelled.':error.message;
  }finally{
-  setTimeout(()=>{mintBusy=false;syncMint()},12000);
+  mintBusy=false;
+  void syncMint();
  }
 };
 syncMint();
@@ -291,6 +293,8 @@ window.addEventListener('hashchange',showPage);
 showPage();
 </script>
 </html>
+
+
 
 
 
