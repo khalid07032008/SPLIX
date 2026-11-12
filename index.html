@@ -13,7 +13,7 @@
 </section>
 <section class="mint" aria-label="Mint">
 <div class="mono status" id="mint-state">CHECKING MINT</div><h1 id="mint-heading">MINT</h1><p class="muted">2,222 tiny remixable characters on Robinhood Chain.</p>
-<dl><div><dt>COLLECTION SIZE</dt><dd>2,222</dd></div></dl>
+<dl><div><dt>COLLECTION SIZE</dt><dd>2,222</dd></div><div><dt>MINTED</dt><dd id="minted-count">— / 2,222</dd></div></dl>
 <div class="track" aria-hidden="true"></div><p class="notice" id="mint-note" role="status"></p>
 <div class="quantity"><span>Quantity</span><div><button id="minus" aria-label="Decrease quantity">−</button><output id="qty" aria-live="polite">1</output><button id="plus" aria-label="Increase quantity">+</button></div></div>
 <div class="presets" role="group" aria-label="Quick mint quantities"><button type="button" data-quantity="1">1</button><button type="button" data-quantity="10">10</button><button type="button" data-quantity="50">50</button><button type="button" data-quantity="100">100</button></div>
@@ -210,6 +210,7 @@ async function syncMint(){
   const [open,count,price]=await Promise.all([readSplix('0x24bbd049'),readSplix('0xa2309ff8'),readSplix('0xc002d23d')]);
   if(mintBusy)return;
   const minted=Number(BigInt(count));
+  document.querySelector('#minted-count').textContent=minted.toLocaleString('en-US')+' / 2,222';
   mintPrice=BigInt(price);
   renderPaymentSummary();
   document.querySelector('#paid-disclosure').hidden=mintPrice===0n;
@@ -293,6 +294,7 @@ window.addEventListener('hashchange',showPage);
 showPage();
 </script>
 </html>
+
 
 
 
